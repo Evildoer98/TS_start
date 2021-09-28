@@ -72,4 +72,16 @@
         }
         let dir: Direction = Direction.NORTH
     ```
+    默认情况下，NORTH 的初始值为 0，其余的成员会从 1 开始自动增长。即 Direction.SOUTH 的值为 1，Direction.EAST 的值为 2，Direction.WEST 的值为 3
+    ```javascript
+        "use strict";
+        var Direction;
+        (function (Direction) {
+            Direction[(Direction["NORTH"] = 0)] = "NORTH";
+            Direction[(Direction["SOUTH"] = 1)] = "SOUTH";
+            Direction[(Direction["EAST"] = 2)] = "EAST";
+            Direction[(Direction["WEST"] = 3)] = "WEST";
+        })(Direction || (Direction = {}));
+        var dir = Direction.NORTH
+    ```
 
