@@ -31,4 +31,45 @@
         }
         console.log(demo('Evildoer'))
     ```
-    person 参数的类型信息在编译后被擦除了
+    person 参数的类型信息在编译后被擦除了。TypeScript只会在编译阶段对类型进行静态检查，如果发现错误，编译时就会报错。而在运行时，编译生成 JS 与普通的 JavaScript 文件一样，并不会进行类型检查。
+
+# TypeScript 基础类型
+1. Boolean 类型
+    let isDo: boolean = false
+    // es5: var isDo = false
+
+2. Number 类型
+    let count: number = 10
+    // es5: var count = 10
+
+3. String 类型
+    let name: string = 'Evildoer'
+    // es5: var name = 'Evildoer'
+
+4. Symbol 类型
+    const sym = Symbol()
+    let obj = {
+        [sym]: 'Evildoer'
+    }
+    console.log(obj[sym]) // Evildoer
+
+5. Array 类型
+    let list: number[] = [1, 2, 3]
+    // es5: var list = [1, 2, 3]
+
+    let list: Array<number> = [1, 2, 3] // Array<number> 泛型语法
+    // es5: var list = [1, 2, 3]
+
+6. Enum 类型
+    使用枚举可以定义一些带名字的变量。使用枚举可以清晰地表达意图或创建一组有区别地用例。TypeScript 支持数字和基于字符串的枚举
+    1. 数字枚举
+    ```typescript
+        enum Direction {
+            NORTH,
+            SOUTH,
+            EAST,
+            WEST
+        }
+        let dir: Direction = Direction.NORTH
+    ```
+
