@@ -72,7 +72,7 @@
         }
         let dir: Direction = Direction.NORTH
     ```
-    默认情况下，NORTH 的初始值为 0，其余的成员会从 1 开始自动增长。即 Direction.SOUTH 的值为 1，Direction.EAST 的值为 2，Direction.WEST 的值为 3
+        默认情况下，NORTH 的初始值为 0，其余的成员会从 1 开始自动增长。即 Direction.SOUTH 的值为 1，Direction.EAST 的值为 2，Direction.WEST 的值为 3
     ```javascript
         "use strict";
         var Direction;
@@ -84,4 +84,50 @@
         })(Direction || (Direction = {}));
         var dir = Direction.NORTH
     ```
-
+    2. 字符串枚举
+        在每一个字符串枚举里，每个成员都必须用字符串字面量，或者另外一个字符串枚举成员进行初始化
+    ```typescript
+        enum Direction {
+            NORTH = 'NORTH',
+            SOUTH = 'SOUTH',
+            EAST = 'EAST',
+            WEST = 'WEST'
+        }
+    ```
+    ```javascript
+        "use strict";
+        var Direction;
+        (function (Direction) {
+            Direction["NORTH"] = "NORTH";
+            Direction["SOUTH"] = "SOUTH";
+            Direction["EAST"] = "EAST";
+            Direction["WEST"] = "WEST";
+        })(Direction || (Direction = {}));
+    ```
+        数字枚举和字符串枚举的编译结果中可知，数字枚举除了支持 从成员名称到值的普通映射之外，还支持 从成员值到成员名称的 反向映射
+    ```typescript
+        enum Direction {
+            NORTH = 'NORTH',
+            SOUTH = 'SOUTH',
+            EAST = 'EAST',
+            WEST = 'WEST'
+        }
+        let dirName = Direction[0] // NORTH
+        let divVal = Direction["NORTH"] // 0
+    ```
+        对字符串枚举，不能省略任何初始化程序。而数字枚举如果没有显式设置值时，则会使用默认规则进行初始化
+    3. 常量枚举
+        使用 const 关键字修饰的枚举，常量枚举会使用内联语法，不会为枚举类型编译生成任何 JavaScript
+    ```typescript
+        const enum Direction {
+            NORTH,
+            SOUTH,
+            EAST,
+            WEST
+        }
+        let dir:Direction = Direction.NORTH
+    ```
+    ```javascript
+        "use strict";
+        var dir = 0 // NORTH
+    ```
