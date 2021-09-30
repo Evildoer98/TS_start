@@ -131,3 +131,103 @@
         "use strict";
         var dir = 0 // NORTH
     ```
+    4. 异构枚举
+        异构枚举的成员值是数字和字符串的混合：
+    ```typescript
+        enum Enum {
+            A,
+            B,
+            C = "C",
+            D = "D",
+            E = 8,
+            F,
+        }
+    ```
+    ```javascript
+        "use strict";
+        var Enum;
+        (function (Enum) {
+            Enum[Enum["A"] = 0] = "A";
+            Enum[Enum["B"] = 1] = "B";
+            Enum["C"] = "C";
+            Enum["D"] = "D";
+            Enum[Enum["E"] = 8] = "E";
+            Enum[Enum["F"] = 9] = "F";
+        })(Enum || (Enum = {}));
+    ```
+        数字枚举相对字符串枚举多了“反向映射”
+    ```javascript
+        console.log(Enum.A) // 输出 0
+        console.log(Enum[0]) // 输出 A
+    ```
+
+7. Any 类型
+    在 TypeScript 中，任何类型都可以被归为 any 类型。这让 any 类型成为了类型系统的顶级类型（也被称作全局超级类型）
+    ```typescript
+        let notSure:any = 666;
+        notSure = "Evildoer";
+        notSure = false;
+    ```
+    any 类型本质上是类型系统的一个逃逸仓。TypeScript 允许对 any 类型的值执行任何操作，而无需事先执行任何形式对检查
+    ```typescript
+        let value: any
+        value.foo.bar 
+        value.trim()
+        value()
+        new value()
+        value[0][1]
+    ```
+    注意：使用 any 类型就无法使用 typescript 对保护机制。
+    故解决 any 带来的问题，引入了 unknown 类型
+
+8. Unknown 类型
+    所有类型都可以赋值给 any，所有类型也同样可以赋值给 unknow。
+    unknow 顶级类型
+    ```typescript
+        let value: unknown;
+        value = true; // OK
+        value = 42; // OK
+        value = "Hello World"; // OK
+        value = []; // OK
+        value = {}; // OK
+        value = Math.random; // OK
+        value = null; // OK
+        value = undefined; // OK
+        value = new TypeError(); // OK
+        value = Symbol("type"); // OK
+    ```
+    对 value 变量的所有赋值都被认为是类型正确的
+    但是如果将类型为 unknown 的值赋值给其他类型就会报错
+    ```typescript
+        let value: unknown;
+        let value1: unknown = value; // OK
+        let value2: any = value; // OK
+        let value3: boolean = value; // Error
+        let value4: number = value; // Error
+        let value5: string = value; // Error
+        let value6: object = value; // Error
+        let value7: any[] = value; // Error
+        let value8: Function = value; // Error
+    ```
+    unknow 类型只能被赋值给 any 类型和 unknown 类型本身。
+    只有能够保存任意变量类型值的容器才能保存 unknown 类型的值
+    ```typescript
+        let value: unknown;
+        value.foo.bar; // Error
+        value.trim(); // Error
+        value(); // Error
+        new value(); // Error
+        value[0][1]; // Error
+    ```
+    将 value 变量类型设置为 unknown 后，这些操作都不再被认为是正确的。通过 any 类型改变为 unknown 类型，禁止任何更改
+
+9. Tuple 类型
+    数组一般由同种类型的值组成，当需要在单个变量中存储不同类型的值时，使用元组。
+    元组可用于定义具有有限数量的的未命名的类型。每个属性都有一个关联的类型。使用元组时，必须提供每个属性的值
+    ```javascript
+        let tupleType: [string, boolean];
+        tupleType = ["Evildoer", true]
+    ```
+    定义了一个名为 tupleType 当变量，它的类型时一个类型数组[string, boolean]，然后按照类型依次初始化 tupleType 变量。与数组一样，可以通过下标来访问元组的元素    
+
+
