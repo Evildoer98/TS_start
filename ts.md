@@ -253,3 +253,62 @@
     ```typescript
         let unusable: void = undefined;
     ```
+
+11. Null 和 Undefined 类型
+    TypeScript 里，undefined 和 null 两者有各自的类型分别为 undefined 和 null
+    ```typescript
+        let u: undefined = undefined;
+        let n: null = null
+    ```
+
+12. object, Object 和 {} 类型
+    1. object 类型
+        object 类型是: TypeScript 引入的新类型，它用于表示非原始类型
+        ```typescript
+            interface ObjectConstructor {
+                create(o: object | null): any
+            }
+            const proto = {}
+            Object.create(proto)   // ok
+            Object.create(null)   // ok
+            Object.create(undefined)   // error
+            Object.create(1048)   // error
+            Object.create(true)   // error
+            Object.create("Evildoer")   // error
+        ```
+    2. Object 类型
+        Object 类型：它时所有 Object 类的实例的类型，它由以下两个接口来定义:
+        *  Object 接口定义了 Object.prototype 原型对象上的属性
+            ```typescript
+                interface Object {
+                    constructor: Function;
+                    toString(): string;
+                    toLocaleString(): string;
+                    valueOf(): Object;
+                    hasOwnproperty(v: PropertyKey): boolean;
+                    isPrototypeOf(v: Object): boolean;
+                    propertyIsEnumerable(v: PropertyKey): boolean;
+                }
+            ```
+        * ObjectConstructor 接口定义了 Object 类的属性
+            ```typescript
+                interface ObjectConstructor {
+                    new(value?: any): Object;
+                    (value?: any): any;
+                    readonly prototype: Obejct;
+                    getPrototypeOf(o: any): any;
+                }
+                declare var Object: ObjectConstructor;
+            ```
+        * Object 类的所有实例都继承了 Object 接口中的所有属性
+    3. {} 类型
+        {} 类型描述了一个没有成员的对象。当试图访问这样的一个对象的任意属性时，typescript 会产生一个编译时错误
+        ```typescript
+            const obj = {};
+            obj.prop = "Evildoer";
+        ```
+        可以使用在 Object 类型上定义的所有属性和方法，这些属性和方法可以通过 js 的原型链隐式地使用
+        ```typescript
+            const obj = {};
+            obj.toString();
+        ```
