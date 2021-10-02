@@ -224,10 +224,32 @@
 9. Tuple 类型
     数组一般由同种类型的值组成，当需要在单个变量中存储不同类型的值时，使用元组。
     元组可用于定义具有有限数量的的未命名的类型。每个属性都有一个关联的类型。使用元组时，必须提供每个属性的值
-    ```javascript
+    ```typescript
         let tupleType: [string, boolean];
         tupleType = ["Evildoer", true]
     ```
     定义了一个名为 tupleType 当变量，它的类型时一个类型数组[string, boolean]，然后按照类型依次初始化 tupleType 变量。与数组一样，可以通过下标来访问元组的元素    
+    ```typescript
+        console.log(tupleType[0]) // Evildoer
+        console.log(tupleType[1]) // true
+    ```
+    在元组初始化的时候，如果出现类型不匹配的话，就会直接报错
 
-
+10. Void 类型
+    表示没有任何类型。当一个函数没有返回值时，返回值的类型时 void
+    ```typescript
+        // 声明函数返回值为 void
+        function warnUser(): void {
+            console.log('Evildoer')
+        }
+    ```
+    ```javascript
+        "use strict";
+        function warnUser() {
+            console.log('Evildoer')
+        }
+    ```
+    注意：声明一个 void 类型的变量没有什么作用，因为在严格模式下，它的值只能为 undefined
+    ```typescript
+        let unusable: void = undefined;
+    ```
