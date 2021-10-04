@@ -393,6 +393,87 @@
         console.log(b)
     ```
     在 TS 中，使用了非空断言，使得 const b: number = a!; 语句可以通过 typescript 类型检查器的检查。但是在生成的 es5 代码中，! 非空断言操作符被移除了，所以在浏览器中执行以上代码，在控制台会输出 undefined
-3. 
+3. 确定赋值断言
+    在 typescript 中，允许在实例属性和变量声明后面放置一个 ! 号，从而告诉 typescript 该属性会被明确的赋值
+    ```typescript
+        let x: number
+        initialize()
+        console.log(2 * x)
+        function initialize() {
+            x = 10
+        }
+    ```
+    上述代码异常信息：变量 x 在赋值被使用了
+    解决方案：使用确定赋值断言
+    ```typescript
+        let x! : number;
+        initialize()
+        console.log(2 * x)
+        function initalize() {
+            x = 10
+        }
+    ```
+    通过 let x!: number 确定赋值断言，typescript 编译器会知道该属性会被明确的赋值
+
+# 类型守卫
+    类型保护是可执行运行时检查的一种表达式，用于确保该类型在一定的范围内。
+    类型保护可以保证一个字符串是一个字符串，尽管它的值也可以是一个数值。
+    类型保护和特性检测并不是完全不同，其主要思想是尝试检测属性、方法或原型，以确定如何处理值
+1. in 关键字
+    ```typescript
+        interface Admin {
+            name: string;
+            privileges: string[]
+        }
+        interface Employee {
+            name: string;
+            startDate: Date;
+        }
+        type UnKnowEmployee = Emplyee | Admin;
+        function printEmployeeInformation (emp: UnKnowEmployee) {
+            console.log("name: " + emp.name);
+            if ("privileges" in emp) {
+                console.log("privileges" + emp.privileges)
+            }
+            if("startDate" in emp) {
+                console.log("Start Date:" + emp.startDate)
+            }
+        }
+    ```
+2. typeof 关键字
+    ```typescript
+        function padLeft(value: string, padding: string | number) {
+            if (typeof padding === 'number') {
+                return Array(padding + 1).join(" ") + value
+            }
+            if (typeof padding === "string") {
+                return padding + value
+            }
+            throw new Error(`Expected string or number, got '${padding}'`)
+        }
+    ```
+    typeof 类型保护只支持两种形式：typeof v === 'typename' 和 typeof v !== typename，'typename' 必须是 ‘number'，'string'，'boolean‘ 或 'symbol‘。但是 typescript 并不会阻止与其他字符串比较，语言不会把那些表达式识别为类型保护
+3. instanceof 关键字
+    ```typescript
+        interface Padder {
+            getPaddingString(): string
+        }
+        class SpaceRepeatingPadder implements Padder {
+            constructor(private numSpaces: number) {}
+            getPaddingString () {
+                return Array(this.numSpaces + 1).join(" ")
+            }
+        }
+        class StringPadder implements Padder {
+            constructor(private value: string) {}
+            getPaddingString() {
+                return this.value
+            }
+        }
+        let padder: Padder = new SpaceRepeatingPadder(10)
+        if (padder instanceof SpaceRepeatingPadder) {
+            // padder 的类型收窄为 ‘SpaceRepeatingPadder’
+        }
+    ```
 
 
