@@ -344,3 +344,55 @@
     ```
     忘记修改 controlFlowAnalysisWithNever 方法中的控制流程，这时候 else 分支的 foo 类型会被收窄为 boolean 类型，导致无法赋值给 never 类型，这时就会产生一个编译错误。通过这个方式，我们可以确保controlFlowAnalysisWithNever 方法总是穷尽了 Foo 的所有可能类型。 
     通过这个示例: 使用 never 避免出现新增了联合类型没有对应的实现，目的就是写出类型绝对安全的代码。
+
+# TypeScript断言
+    通过类型断言这种方式告诉编译器，“相信我，我知道自己在干什么"。类型断言好比其他语言里的类型转换，但是不进行特殊的数据检查和解构。它没有运行时的影响，只是在编译阶段起作用。
+1. 断言类型
+    1. “尖括号”语法
+    ```typescript
+        let value: any = "Evildoer"
+        let length: number = (<string>value).length
+    ```
+    2. as 语法
+    ```typescript
+        let value: any = "Evildoer"
+        let length: number = (value as string).length
+    ```
+2. 非空断言
+    在上下文中当类型检查器无法判定类型时，一个新的后缀表达式操作符 ! 可以用于断言操作对象是非 null 和 非 undefined 类型。
+    具体：x! 将从 x 值域中排除 null 和 undefined
+    1. 忽略 undefined 和 null 类型
+    ```typescript
+        function Fun(test: string | undefined | null) {
+            // type ‘string | null | undefined' is not assignable to type 'string'
+            // type 'undefined' is not assignable to type 'string'
+            const demo: string = test // error
+            const hello: string = test   // ok
+        }
+    ```
+    2. 调用函数时忽略 undefined 类型
+    ```typescript
+        type NumGenerator = () => number
+        function Fun(numGenerator: NumGenerator | undefined) {
+            // Object is possibly 'undefined'
+            // cannot invoke an object which is possibly 'undefined'
+            const num1 = numGenerator()   // error
+            const num2 = numGenerator!()  // ok
+        }
+    ```
+    因为 ! 非空断言操作符会从编译生成的 JavaScript 代码中移除。
+    ```typescript
+        const a: number | undefined = undefined
+        const b: number = a!
+        console.log(b)
+    ```
+    ```javascript
+        "use strict"
+        const a = undefined;
+        const b = a
+        console.log(b)
+    ```
+    在 TS 中，使用了非空断言，使得 const b: number = a!; 语句可以通过 typescript 类型检查器的检查。但是在生成的 es5 代码中，! 非空断言操作符被移除了，所以在浏览器中执行以上代码，在控制台会输出 undefined
+3. 
+
+
