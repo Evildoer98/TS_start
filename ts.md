@@ -527,6 +527,23 @@
             }
         ```
         定义了 Motocycle、Car 和 Truck 三个接口，在这些接口中都包含一个 vType 属性，该属性被称为可辨识的属性，而它的属性只跟特性的接口相关
+    2. 联合类型
+        基于以上定义的三个接口，创建一个 Vehicle 联合类型
+        ```typescript
+            type Vehicle = Motocycle | Car | Truck
+        ```
+        使用 Vehicle 联合类型，对于 Vehicle 类型的变量，可以表示不同类型的车辆
+    3. 类型守卫
+        定义一个 evaluatePrice 方法，该方法用于根据车辆的类型、容量和评估因子来计算价格
+        ```typescript
+            const EVALUATION_FACTOR = Math.PI
+            function evaluatePrice (vehicle: Vehicle) {
+                return vehicle.capacity * EVALUATION_FACTOR
+            }
+            const myTruck: Truck = {vType: 'truck', capacity: 9.5}
+            evaluatePrice(myTruck)
+
+        ```
 
 
 
