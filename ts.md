@@ -537,7 +537,7 @@
     2. 联合类型
         基于以上定义的三个接口，创建一个 Vehicle 联合类型
         ```typescript
-            type Vehicle = Motocycle | Car | Truck
+            type Vehicle = Motorcycle | Car | Truck
         ```
         使用 Vehicle 联合类型，对于 Vehicle 类型的变量，可以表示不同类型的车辆
     3. 类型守卫
@@ -549,8 +549,37 @@
             }
             const myTruck: Truck = {vType: 'truck', capacity: 9.5}
             evaluatePrice(myTruck)
-
         ```
+        报错：
+        ```typescript
+            Property 'capacity' does not exist on type 'Vehicle'
+            Property 'capacity' does not exist on type 'Motorcycle'
+        ```
+        原因是在 Motorcycle 接口中，并不存在 capacity 属性，而对于 Car 接口来说，它也不存在 capacity 属性。
+        使用类型守卫，重构前面定义的 evaluatePrice 方法
+        ```typescript
+            function evaluatePrice(vehicle: Vehicle) {
+                switch(vehicle.vType) {
+                    case "car":
+                        return vehicle.transmission * EVALUATION_FACTOR
+                    case "truck":
+                        return vehicle.capacity * EVALUATION_FACTOR
+                    case "motorcycle":
+                        return vehicle.make * EVALUATION_FACTOR
+                }
+            }
+        ```
+        以上代码中，使用 switch 和 case 运算符来实现类型守卫，从而确保 evaluatePrice 方法中，可以安全的访问 vehicle 对象中所包含的属性，来正确的计算车辆的价格
+3. 类型别名
+    类型别名用来给一个类型起一个新名字
+    ```typescript
+        type Message = string | string[]
+        let greet = (message: Message) => {
+            // ...
+        }
+    ```
+
+
 
 
 
