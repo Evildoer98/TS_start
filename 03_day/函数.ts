@@ -96,6 +96,7 @@
         // }
     
     // ts 中的重载
+        // 参数不一样
         function getInfo5(name: string): string;
 
         function getInfo5(age: number): number;
@@ -108,5 +109,22 @@
             }
         }
 
+        function getInfo6(name: string): string;
+
+        function getInfo6(name: string, age: number): number;
+
+        function getInfo6(name: any, age?: any): any {
+            if (age) {
+                return '我叫' + name + '我的年龄是' + age
+            } else {
+                return '我叫' + name
+            }
+        }
         
+// 箭头函数 es6 
+// this 的指向问题  箭头函数里面的 this 指向上下文
+    setTimeout(() => {
+        console.log('123');
+    }, 1000);
+
 
