@@ -312,6 +312,7 @@
             const obj = {};
             obj.toString();
         ```
+
 13. Never 类型
     never 类型表示的时那些永不存在的值的类型。
     eg: never 类型时那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型。
@@ -358,6 +359,7 @@
         let value: any = "Evildoer"
         let length: number = (value as string).length
     ```
+
 2. 非空断言
     在上下文中当类型检查器无法判定类型时，一个新的后缀表达式操作符 ! 可以用于断言操作对象是非 null 和 非 undefined 类型。
     具体：x! 将从 x 值域中排除 null 和 undefined
@@ -393,6 +395,7 @@
         console.log(b)
     ```
     在 TS 中，使用了非空断言，使得 const b: number = a!; 语句可以通过 typescript 类型检查器的检查。但是在生成的 es5 代码中，! 非空断言操作符被移除了，所以在浏览器中执行以上代码，在控制台会输出 undefined
+
 3. 确定赋值断言
     在 typescript 中，允许在实例属性和变量声明后面放置一个 ! 号，从而告诉 typescript 该属性会被明确的赋值
     ```typescript
@@ -440,6 +443,7 @@
             }
         }
     ```
+
 2. typeof 关键字
     ```typescript
         function padLeft(value: string, padding: string | number) {
@@ -453,6 +457,7 @@
         }
     ```
     typeof 类型保护只支持两种形式：typeof v === 'typename' 和 typeof v !== typename，'typename' 必须是 ‘number'，'string'，'boolean‘ 或 'symbol‘。但是 typescript 并不会阻止与其他字符串比较，语言不会把那些表达式识别为类型保护
+
 3. instanceof 关键字
     ```typescript
         interface Padder {
@@ -475,6 +480,7 @@
             // padder 的类型收窄为 ‘SpaceRepeatingPadder’
         }
     ```
+
 4. 自定义类型保护的类型谓词
     ```typescript
         function isNumber(x: any): x is number {
@@ -503,6 +509,7 @@
         type EventNames = 'click' | 'scroll' | 'mousemove'
     ```
     以上示例中的 1 、2 或 'click' 被称为字面量类型，用来约束取值只能是某几个值中的一个
+    
 2. 可辨识联合
     typescript 可辨识 (Discriminated Unions) 类型，也称为代数数据类型或标签联合类型
     包含：可辨识、联合类型和类型守卫
