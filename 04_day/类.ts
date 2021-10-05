@@ -73,7 +73,7 @@ class Web1 extends Person3 {
     run (): string {
         return `${this.name} 在运动`
     }
-    work() {
+    work(): void {
         alert(`${this.name} 在工作`)
     }
 }
@@ -105,7 +105,7 @@ class Web2 extends Person4 {
     run (): string {
         return `${this.name} 在运动`
     }
-    work() {
+    work(): void {
         alert(`${this.name} 在工作`)
     }
 }
@@ -133,7 +133,7 @@ w2.work()  // 李四在工作
         constructor(name: string) {
             super(name)   // 初始化父类的构造函数
         }
-        work() {
+        work(): void {
             alert(`${this.name} 在工作`)
         }
     }
@@ -155,8 +155,8 @@ w2.work()  // 李四在工作
         constructor(name: string) {
             super(name)   // 初始化父类的构造函数
         }
-        work() {
-            alert(`${this.name} 在工作`)  // 没法访问，会报错  Property 'name' is private and only accessible within class 'Person6'.ts(2341)
+        work():void {
+            // alert(`${this.name} 在工作`)  // 没法访问，会报错  Property 'name' is private and only accessible within class 'Person6'.ts(2341)
         }
     }
     
