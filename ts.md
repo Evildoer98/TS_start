@@ -475,5 +475,58 @@
             // padder 的类型收窄为 ‘SpaceRepeatingPadder’
         }
     ```
+4. 自定义类型保护的类型谓词
+    ```typescript
+        function isNumber(x: any): x is number {
+            return typeof x === 'number'
+        }
+        function isString(x: any): x is string {
+            return typeof x === 'string'
+        }
+    ```
+# 联合类型和类型别名
+1. 联合类型
+    联合类型通常与 null 或 undefined 一起使用
+    ```typescript
+    const sayHello = (name: string | undefined) => {
+
+    }
+    ```
+    eg: 这里 name 的类型是 string | undefined 意味着可以将 string 或 undefined 的值传递给 sayHello 函数
+    ```typescript
+        sayHello('Evildoer')
+        sayHello(undefined)
+    ```
+    通过这个示例，可以得知类型 A 和 类型 B 联合后的类型是同时接受 A 和 B 值的类型。此外，对于联合类型来说
+    ```typescript
+        let num: 1 | 1 = 1
+        type EventNames = 'click' | 'scroll' | 'mousemove'
+    ```
+    以上示例中的 1 、2 或 'click' 被称为字面量类型，用来约束取值只能是某几个值中的一个
+2. 可辨识联合
+    typescript 可辨识 (Discriminated Unions) 类型，也称为代数数据类型或标签联合类型
+    包含：可辨识、联合类型和类型守卫
+    1. 可辨识
+        可辨识要求联合类型中的每个元素都含有一个单例类型属性，比如:
+        ```typescript
+            enum CarTransmission {
+                Automotic = 200,
+                Manual = 300
+            }
+            interface Motorcycle {
+                vType: 'motorcycle';
+                make: number;
+            }
+            interface Car {
+                vType: 'car';
+                transmission: CarTransmission
+            }
+            interface Truck {
+                vType: 'truck';
+                capacity: number
+            }
+        ```
+        定义了 Motocycle、Car 和 Truck 三个接口，在这些接口中都包含一个 vType 属性，该属性被称为可辨识的属性，而它的属性只跟特性的接口相关
+
 
 
