@@ -579,6 +579,45 @@
         }
     ```
 
+#  交叉类型
+    在 typescript 中交叉类型是多个类型合并为一个类型。通过 & 运算符可以将现有的多种类型叠加到一起成为一个类型，它包含了所需的所有类型的特性
+```typescript
+    type PartialPointX = {x: number}
+    type Point = PartialPointX & {y: number}
+    let point: Point = {
+        x: 1,
+        y: 1
+    }
+```
+    在上面代码中定义了 PartialPointX 类型，接着使用 & 运算符创建一个新的 Point 类型，表示一个含有 x 和 y 坐标的点，然后定义了一个 Point 类型的变量并初始化
+1. 同名基础类型属性的合并
+    eg：在合并多个类型的过程中，刚好出现某些类型存在相同的成员，当对应的类型又不一致
+    ```typescript
+        interface X {
+            c: string;
+            d: string;
+        }
+        interface y {
+            c: number;
+            e: string;
+        }
+        type XY = X & Y
+        type YX = Y & X
+        let p: XY
+        let q: YX
+    ```
+    在以上代码中，接口 X 和接口 Y 都含有一个相同的成员 c，但它们都类型不一致，
+    此时 XY 类型 或者 YX 类型中 成员 c 都类型是不是可以是 string 或 number 类型呢？
+    ```typescript
+        p = {c: 6, d: 'd', e: 'e'}
+        // Type 'number' is not assignable to type 'never'
+        // The expected type comes from property 'c' which
+        p = {c: 'c', d: 'd', e: 'e'}
+    ```
+    接口 X 和 接口 Y 混入后，成员 c 的类型会变成 never ，因为混入后成员 c 的类型为 string & number，即成员 c 的类型既可以是 string 类型又可以是 number 类型。这种类型是不存在的。所以混入后成员 c 的类型为 never
+    
+
+
 
 
 
