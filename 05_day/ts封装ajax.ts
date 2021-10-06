@@ -4,7 +4,7 @@ interface Config {
     data?: string;
     dataType: string
 }
-
+// 原生 js 封装的 ajax
 function ajax (config: Config) {
     var xhr = new XMLHttpRequest()
     xhr.open(config.type, config.url, true)
