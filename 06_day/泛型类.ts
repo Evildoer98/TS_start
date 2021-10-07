@@ -36,7 +36,7 @@
 
 
 // 操作数据库的泛型类
-class MysqlDb<T> {
+class MysqlDb1<T> {
     add(info: T): boolean {
         console.log(info);
         return true
@@ -51,16 +51,16 @@ class MysqlDb<T> {
 // 想给 user 表增加数据
 
 // 1、定义一个 User 类 和数据库进行映射
-class User {
+class User1 {
     username: string | undefined;
     password: string | undefined;
 }
 
-var u = new User()
+var u = new User1()
 u.username = '张三'
 u.password = '123456'
 
-var Db = new MysqlDb<User>()
+var Db = new MysqlDb1<User1>()
 Db.add(u)
 
 // 2、定义一个 ArticleCate 类 和数据库进行映射
@@ -85,5 +85,5 @@ var article = new ArticleCate({
     status: 'Evildoer'
 })
 
-var Db1 = new MysqlDb<ArticleCate>()
+var Db1 = new MysqlDb1<ArticleCate>()
 Db1.add(article)
