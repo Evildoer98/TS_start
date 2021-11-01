@@ -615,8 +615,166 @@
         p = {c: 'c', d: 'd', e: 'e'}
     ```
     接口 X 和 接口 Y 混入后，成员 c 的类型会变成 never ，因为混入后成员 c 的类型为 string & number，即成员 c 的类型既可以是 string 类型又可以是 number 类型。这种类型是不存在的。所以混入后成员 c 的类型为 never
-    
+2. 同名非基础类型属性的合并
 
+# TypeScript 函数
+1. TypeScript 函数 和 JavaScript 函数的区别
+｜```|```|
+|TypeScript|JavaScript|
+|含有类型|无类型|
+|箭头函数|箭头函数（ES2015）|
+|函数类型|无函数类型|
+|必填和可选参数|所有参数都是可选的|
+|默认参数|默认参数|
+|剩余参数|剩余参数|
+|函数重载|无函数重载|
+
+2. 箭头函数
+    1. 常用
+    ```typescript
+        myBooks.forEach(() => console.log('reading'))
+        myBooks.forEach(title => console.log('reading'))
+        myBooks.forEach((title, index, arr) => console.log(index + '-' + title))
+    ```
+    2. eg
+    ```typescript
+        // 未使用箭头函数
+        function Book () {
+            let self = this
+            self.publishDate = 2021
+            setInterval(function () {
+                console.log(self.publishDate)
+            }, 1000)
+        }
+
+        // 使用箭头函数
+        function Book () {
+            this.publishDate = 2021
+            setInterval(() => {
+                console.log(this.publishDate)
+            }, 1000)
+        }
+    ```
+    3. 参数类型和返回类型
+    ```typescript
+        function createUserId (name: string, id: number): string {
+            return number + id
+        }
+    ```
+    4. 函数类型
+    ```typescript
+        let IdGenerator: (char: string, nums: number) => string;
+        function createUserId(name: string, id: number): string {
+            return num + id
+        }
+        IdGenerator = createUserId
+    ```
+    5. 可选参数及默认参数
+    ```typescript
+        // 可选参数
+        function createUserId (name: string, id: number, age?: number): string {
+            return name + id
+        }
+        // 默认参数
+        function createUserId (
+            name: string = 'Evildoer',
+            id: number,
+            age?: number
+        ): string {
+            return name + id
+        }
+    ```
+    在声明函数时，可以通过 ? 号来定义可选参数，比如 age?: number 这种形式。在实际使用时，需要注意到时可选参数要放在普通参数的后面，不然会导致编译错误
+    6. 剩余参数
+    ```typescript
+        function push(array, ...items) {
+            items.forEach(function(item) {
+                array.push(item)
+            })
+        }
+        let a = []
+        push (a, 1, 2, 3)
+    ```
+    7. 函数重载
+    函数重载或方法重载是使用相同名称和不同参数或类型创建多个方法的一种能力
+    ```typescript
+        function add(a: number, b: number): number;
+        function add(a: string, b: string): string;
+        function add(a: string, b: number): string;
+        function add(a: number, b: string): string;
+        function add(a: Combinable, b: Combinable) {
+            if (typeof a === 'string' || typeof b === 'string') {
+                return a.toString() + b.toString()
+            }
+            return a + b
+        }
+    ```
+    在以上代码中，为 add 函数提供了多个函数类型定义，从而实现函数的重载。在 TypeScript 中除了可以重载普通函数之外，还可以重载类中的成员方法
+
+    方法重载是指一个类中方法同名，参数不同（参数类型不同、参数个数不同或参数个数相同时参数的先后顺序不同），调用时根据实参的形式，选择与它匹配的方法执行操作的一种技术。所以类中成员方法满足重载的条件时：在同一个类中，方法名相同且参数列表不同。
+    ```typescript
+        class Calculator {
+            function add(a: number, b: number): number;
+            function add(a: string, b: string): string;
+            function add(a: string, b: number): string;
+            function add(a: number, b: string): string;
+            function add(a: Combinable, b: Combinable) {
+                if (typeof a === 'string' || typeof b === 'string') {
+                    return a.toString() + b.toString()
+                }
+                return a + b
+            }
+        }
+        const calculator = new Calculator()
+        const result = calculator.add('Evildoer', 'Evildoer09')
+    ```
+    在 TypeScript 编译器处理函数重载时，它会查找重载列表，尝试使用第一个重载定义。如果匹配的话就使用这个。因此，在定义重载的时候，一定要把最精确的定义放在最前面。
+    在 Calculator 类中，add(a: Combinable, b: Combinable) {} 并不是重载列表的一部分，因此对于 add 成员方法来说，只定义了四个重载方法。
+
+# TypeScript 数组
+1. 数组解构
+```typescript
+    let x: number;
+    let y: number;
+    let z: number;
+    let array = [1, 2, 3, 4, 5]
+    [x, y, z] = array
+```
+2. 数组展开运算符
+```typescript
+    let array = [1, 2]
+    let array1 = [...array, 3, 4, 5]
+```
+3. 数组遍历
+```typescript
+    let colors: string[] = ['red', 'green', 'blue']
+    for (lei i of colors) {
+        console.log(i)
+    }
+```
+
+# TypeScript 对象
+1. 对象解构
+```typescript
+    let person = {
+        name: 'Evildoer',
+        sex: '男',
+        age: 20
+    }
+    let {name, sex, age} = person
+```
+2. 对象展开运算符
+```typescript
+    let person = {
+        name: 'Evildoer',
+        sex: '男',
+        age: 20
+    }
+    // 组装对象
+    let personWithAddress = {...person, adderss: 'China'}
+    // 获取除了某些项外的其他项
+    let {name, ...rest} = person
+```
 
 
 
