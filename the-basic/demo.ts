@@ -37,5 +37,18 @@ if (value === 'a') {
   //...
 }
 
+// Error
+// Parameter 'person' implicitly has an 'any' type.ts(7006)
+// Parameter 'data' implicitly has an 'any' type.ts(7006)
+function greetError(person, data){
+  console.log(`Hello ${person}, today is ${data}`)
+}
+// Expected 2 arguments, but got 1.ts(2554)
+greetError('Evildoer98')
 
 
+function greetOk(person: string, data: string) {
+  console.log(`Hello ${person}, today is ${data}`)
+}
+
+greetOk('Evildoer', '2021-3-6')
