@@ -46,3 +46,9 @@ No Emit On Error - noEmitOnError <https://www.typescriptlang.org/tsconfig#noEmit
 在这种环境中，您可能希望在确保解决所有错误之前在另一个环境中查看代码更改的结果
 
 忽视编译时所报的错误，知道自己在做什么
+
+## Explicit Types
+
+使用时类型声明是明确的
+
+也可以进行类型推导

@@ -52,3 +52,16 @@ function greetOk(person: string, data: string) {
 }
 
 greetOk('Evildoer', '2021-3-6')
+
+// 4. Explicit Types
+function greet(person: string, date: Date){
+  console.log(`hello ${person}, today is ${date.toDateString()}!`)
+}
+
+// Argument of type 'string' is not assignable to parameter of type 'Date'.
+greet('Evildoer98', Date())
+
+greet('Evildoer98', new Date())
+
+// let msg: string
+let msg = 'hello'
