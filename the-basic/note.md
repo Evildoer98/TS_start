@@ -76,3 +76,22 @@ tsc 编译后会擦除掉类型
 ```
 
 实际上没有任何浏览器或其他运行时可以在未修改的情况下运行 TypeScript。这就是 TypeScript 首先需要一个编译器的原因——它需要某种方式来剥离或转换任何 TypeScript 特定的代码，以便您可以运行它。大多数特定于 TypeScript 的代码都被删除了，同样地，我们的类型注释也被完全删除了。
+
+## Downleveling(降级)
+
+```ts
+  `Hello ${person}, today is ${date.toDateString()}!`;
+```
+
+```js
+  "Hello " + person + ", today is " + date.toDateString() + "!";
+```
+
+运行 tsc --target es2015 hello.ts
+
+```js
+  function greet(person, date) {
+    console.log(`Hello ${person}, today is ${date.toDateString()}!`);
+  }
+  greet("Evildoer98", new Date());
+```
