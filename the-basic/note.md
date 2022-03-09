@@ -52,3 +52,27 @@ No Emit On Error - noEmitOnError <https://www.typescriptlang.org/tsconfig#noEmit
 使用时类型声明是明确的
 
 也可以进行类型推导
+
+## Erased Types
+
+tsc 编译后会擦除掉类型
+
+```ts
+  function greet(person: string, date: Date) {
+    console.log(`Hello ${person}, today is ${date.toDateString()}!`);
+  }
+
+  greet("Evildoer98", new Date());
+```
+
+编译后的结果
+
+```js
+  "use strict";
+  function greet(person, date) {
+    console.log("Hello ".concat(person, ", today is ").concat(date.toDateString(), "!"));
+  }
+  greet("Evildoer98", new Date());
+```
+
+实际上没有任何浏览器或其他运行时可以在未修改的情况下运行 TypeScript。这就是 TypeScript 首先需要一个编译器的原因——它需要某种方式来剥离或转换任何 TypeScript 特定的代码，以便您可以运行它。大多数特定于 TypeScript 的代码都被删除了，同样地，我们的类型注释也被完全删除了。
