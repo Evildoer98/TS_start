@@ -95,3 +95,20 @@ tsc 编译后会擦除掉类型
   }
   greet("Evildoer98", new Date());
 ```
+
+## Strictness
+
+可以选择严格模式，也可以选择非严格模式
+在 tsconfig.json 中的 ‘strict’: true 会同时将他们全部打开
+可以选择单独退出 noImplicitAny 和 strictNullChecks
+
+## noImplicitAny
+
+对更多的 any 进行约束，如果都是用 any，那是用 ts 将没有任何意义
+打开 noImplicitAny 标志将对任何类型被隐式推断为 any 的变量发出错误
+
+## strictNullChecks
+
+默认情况下，像 null 和 undefined 这样的值可以分配给任何其他类型。
+
+strictNullChecks 标志使处理 null 和 undefined 更加明确
