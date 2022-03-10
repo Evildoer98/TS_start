@@ -46,3 +46,69 @@ No Emit On Error - noEmitOnError <https://www.typescriptlang.org/tsconfig#noEmit
 在这种环境中，您可能希望在确保解决所有错误之前在另一个环境中查看代码更改的结果
 
 忽视编译时所报的错误，知道自己在做什么
+
+## Explicit Types
+
+使用时类型声明是明确的
+
+也可以进行类型推导
+
+## Erased Types
+
+tsc 编译后会擦除掉类型
+
+```ts
+  function greet(person: string, date: Date) {
+    console.log(`Hello ${person}, today is ${date.toDateString()}!`);
+  }
+
+  greet("Evildoer98", new Date());
+```
+
+编译后的结果
+
+```js
+  "use strict";
+  function greet(person, date) {
+    console.log("Hello ".concat(person, ", today is ").concat(date.toDateString(), "!"));
+  }
+  greet("Evildoer98", new Date());
+```
+
+实际上没有任何浏览器或其他运行时可以在未修改的情况下运行 TypeScript。这就是 TypeScript 首先需要一个编译器的原因——它需要某种方式来剥离或转换任何 TypeScript 特定的代码，以便您可以运行它。大多数特定于 TypeScript 的代码都被删除了，同样地，我们的类型注释也被完全删除了。
+
+## Downleveling(降级)
+
+```ts
+  `Hello ${person}, today is ${date.toDateString()}!`;
+```
+
+```js
+  "Hello " + person + ", today is " + date.toDateString() + "!";
+```
+
+运行 tsc --target es2015 hello.ts
+
+```js
+  function greet(person, date) {
+    console.log(`Hello ${person}, today is ${date.toDateString()}!`);
+  }
+  greet("Evildoer98", new Date());
+```
+
+## Strictness
+
+可以选择严格模式，也可以选择非严格模式
+在 tsconfig.json 中的 ‘strict’: true 会同时将他们全部打开
+可以选择单独退出 noImplicitAny 和 strictNullChecks
+
+## noImplicitAny
+
+对更多的 any 进行约束，如果都是用 any，那是用 ts 将没有任何意义
+打开 noImplicitAny 标志将对任何类型被隐式推断为 any 的变量发出错误
+
+## strictNullChecks
+
+默认情况下，像 null 和 undefined 这样的值可以分配给任何其他类型。
+
+strictNullChecks 标志使处理 null 和 undefined 更加明确
