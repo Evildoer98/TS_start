@@ -31,11 +31,24 @@ printId({id: 18})
  *
  * 若使用联合类型，使用的方法不能是仅针对一种类型的方法
  * 只有在对联合体的每个成员都有效的情况下才允许操作
- * 
+ *
  */
 
 function printId2(id: number | string) {
   // Property 'toUpperCase' does not exist on type 'string | number'.
   // Property 'toUpperCase' does not exist on type 'number'.
   console.log(id.toUpperCase())
+}
+
+// 解决以上问题，使用代码缩小联合
+// 在 ts 中根据代码的结构为某个值推断出更具体的类型时，就会出现收窄
+
+function printId3(id: number | string) {
+  if (typeof id === 'string') {
+    // id: string
+    console.log(id.toLowerCase())
+  } else {
+    // id: number
+    console.log(id)
+  }
 }
