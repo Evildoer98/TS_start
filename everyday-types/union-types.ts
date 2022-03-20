@@ -52,3 +52,19 @@ function printId3(id: number | string) {
     console.log(id)
   }
 }
+
+function welcomePeople(x: string[] | string) {
+  if(Array.isArray(x)) {
+    console.log(x.join('or'))
+  } else {
+    console.log(x)
+  }
+}
+
+// 若所有成员都有共同点
+// 如果联合中的每个成员都有一个共同的属性，则可以使用该属性而不会缩小范围
+function getFirstThree(x: number[] | string) {
+  return x.slice(0, 3)
+}
+
+// 通过取每种类型的值的并集组成的
